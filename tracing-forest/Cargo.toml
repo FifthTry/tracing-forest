@@ -17,7 +17,7 @@ repository = "https://github.com/QnnOkabayashi/tracing-forest"
 default = ["smallvec"]
 full = ["uuid", "chrono", "smallvec", "tokio", "serde", "env-filter", "ansi"]
 env-filter = ["tracing-subscriber/env-filter"]
-ansi = ["ansi_term"]
+ansi = ["colored"]
 
 [dependencies]
 tracing = "0.1"
@@ -48,8 +48,8 @@ version = "1.0"
 features = ["derive"]
 optional = true
 
-[dependencies.ansi_term]
-version = "0.12"
+[dependencies.colored]
+version = "2"
 optional = true
 
 [dev-dependencies]

@@ -9,8 +9,6 @@ type IndentVec = smallvec::SmallVec<[Indent; 32]>;
 type IndentVec = Vec<Indent>;
 
 #[cfg(feature = "ansi")]
-use ansi_term::Color;
-#[cfg(feature = "ansi")]
 use tracing::Level;
 
 /// Format logs for pretty printing.
@@ -241,16 +239,16 @@ struct ColorLevel(Level);
 #[cfg(feature = "ansi")]
 impl fmt::Display for ColorLevel {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use colored::Colorize;
+
         let color = match self.0 {
-            Level::TRACE => Color::Purple,
-            Level::DEBUG => Color::Blue,
-            Level::INFO => Color::Green,
-            Level::WARN => Color::RGB(252, 234, 160), // orange
-            Level::ERROR => Color::Red,
+            Level::TRACE => colored::Color::TrueColor { r: 160, g: 32, b: 240}, // purple,
+            Level::DEBUG => colored::Color::Blue,
+            Level::INFO => colored::Color::Green,
+            Level::WARN => colored::Color::TrueColor { r: 252, g: 234, b: 160}, // orange
+            Level::ERROR => colored::Color::Red,
         };
-        let style = color.bold();
-        write!(f, "{}", style.prefix())?;
-        f.pad(self.0.as_str())?;
-        write!(f, "{}", style.suffix())
+
+        write!(f, "{}", self.0.as_str().color(color).bold())
     }
 }
